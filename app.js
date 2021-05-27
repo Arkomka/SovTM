@@ -2,14 +2,27 @@ const express = require('express');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const passport = require('passport');
-const fs = require("fs");
+const expressHbs = require('express-handlebars');
+const hbs = require('hbs');
+const fs = require('fs');
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
+
+app.engine(
+  'hbs',
+  expressHbs({
+    layoutsDir: 'views/layouts',
+    defaultLayout: 'main',
+    extname: 'hbs',
+  })
+);
+app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/static"));
+app.use(express.static(__dirname + '/static'));
 
 app.use(
   session({
@@ -36,14 +49,16 @@ app.use((req, res, next) => {
   let seconds = now.getSeconds();
   let data = `*${hour}:${minutes}:${seconds}* *${req.method}* *${req.url}*`;
   console.log(data);
-  fs.appendFile("server.log", data + "\n", err => {
+  fs.appendFile('server.log', data + '\n', (err) => {
     if (err) throw err;
   });
   next();
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.render('index.hbs', {
+    isMain: true,
+  });
 });
 
 app.post('/', (req, res, next) => {
@@ -58,11 +73,10 @@ app.post('/', (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.redirect('/loginon');
+      return res.redirect('/adminpanel');
     });
   })(req, res, next);
 });
-
 
 const auth = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -72,29 +86,25 @@ const auth = (req, res, next) => {
   }
 };
 
-app.get('/loginon', auth, (req, res) => {
-  console.log(req.session);
-  res.sendFile(__dirname + "/static/pages/loginon.html");
-});
-
 app.get('/loginfail', (req, res) => {
-  console.log(req.session);
-  res.sendFile(__dirname + "/static/pages/loginfail.html");
+  res.render('loginfail.hbs');
 });
 
 app.get('/adminpanel', auth, (req, res) => {
-  res.sendFile(__dirname + "/static/adminpanel.html");
+  res.render('adminpanel.hbs', {
+    isLogin: true,
+  });
 });
 
 app.get('/adminpanel/bd', auth, (req, res) => {
-  res.sendFile(__dirname + "/static/pages/bd.html");
+  res.render('bd.hbs', {
+    isLogin: true,
+  });
 });
 
 app.get('/logout', (req, res) => {
-  fs.readdirSync(__dirname + "/sessions/").forEach((sessionFile) => {
-    fs.unlinkSync(__dirname + `/sessions/${sessionFile}`, () => { });
-  });
+  req.logout();
   res.redirect('/');
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

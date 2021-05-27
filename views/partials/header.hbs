@@ -1,0 +1,21 @@
+<header id='header'>
+  <logo id='logo'>
+    <img src='/images/logo/logo.png' alt='Sov™' title='Sov™' />
+  </logo>
+  <div id='mainheader'>
+    <a href='/adminpanel'>
+      <h2>Административная панель</h2>
+    </a>
+  </div>
+  {{#if isLogin}}
+    <div id='authlogin'>
+      <a href='/adminpanel'>
+        <h3 id='useron-loginon'></h3>
+      </a>
+      <button class='button'>
+        <a href='/logout'>Выход</a>
+      </button>
+    </div>
+  {{else}}
+  {{/if}}
+</header>
