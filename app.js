@@ -5,6 +5,8 @@ const passport = require('passport');
 const expressHbs = require('express-handlebars');
 const hbs = require('hbs');
 const fs = require('fs');
+const bd = require('./models/js/connbd.js');
+const { emit } = require('process');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,7 +40,7 @@ app.use(
   })
 );
 
-require('./config-passport');
+require('./models/js/config-passport.js');
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -102,9 +104,64 @@ app.get('/adminpanel/bd', auth, (req, res) => {
   });
 });
 
+app.post('/adminpanel/bd', auth, (req, res) => {
+  res.render('bd.hbs', {
+    isLogin: true,
+    users: data,
+  });
+});
+
+app.get('/adminpanel/bd/users', auth, (req, res) => {
+  bd.findAll({ raw: true })
+    .then((data) => {
+      res.render('users.hbs', {
+        isLogin: true,
+        users: data,
+      });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.get('/adminpanel/bd/editusers', auth, (req, res) => {
+  bd.findAll({ raw: true })
+    .then((data) => {
+      res.render('editusers.hbs', {
+        isLogin: true,
+        users: data,
+      });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post('/adminpanel/bd/users/edit/:id', auth, (req, res) => {
+  const userid = req.params.id;
+  const username = req.body;
+  bd.update(
+    { name: username.editLogin, password: username.editPass },
+    { where: { id: userid } }
+  )
+    .then(() => {
+      res.redirect('/adminpanel/bd/editusers');
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post('/adminpanel/bd/users/delete/:id', auth, (req, res) => {
+  const userid = req.params.id;
+  bd.destroy({ where: { id: userid } })
+    .then(() => {
+      res.redirect('/adminpanel/bd/editusers');
+    })
+    .catch((err) => console.log(err));
+});
+
 app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+});
+
+app.get('/404', (req, res) => {
+  res.render('404.hbs');
 });
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
