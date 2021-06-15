@@ -1,47 +1,16 @@
-const hbs = require('hbs');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const Sequelize = require('sequelize');
+const bd = require('./connbd.js');
 let userName = ' ';
-
-const sequelize = new Sequelize('mysql', 'root', 'root', {
-  dialect: 'mariadb',
-  host: 'localhost',
-  define: {
-    timestamps: false,
-  },
-});
-
-const User = sequelize.define('user', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false,
-  },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  password: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  date: {
-    type: Sequelize.DATE,
-    allowNull: false,
-  },
-});
 
 passport.serializeUser(function (user, done) {
   console.log('Сериализация: ', user);
   done(null, user.id);
-  return user;
 });
 
 passport.deserializeUser(function (id, done) {
   console.log('Десериализация: ', id);
-  User.findOne({ where: { id: id } })
+  bd.findOne({ where: { id: id } })
     .then((useridDB) => {
       if (!useridDB) return;
       userName = useridDB.dataValues.name;
@@ -52,7 +21,7 @@ passport.deserializeUser(function (id, done) {
 
 passport.use(
   new LocalStrategy({}, function (username, password, done) {
-    User.findOne({ where: { name: username, password: password } })
+    bd.findOne({ where: { name: username, password: password } })
       .then((usersDB) => {
         if (!usersDB) {
           return done(null, false);
@@ -69,13 +38,3 @@ passport.use(
       .catch((err) => console.log(err));
   })
 );
-
-// const UserName = () => {
-//   User.findOne({})
-//     .then(usersDB => {
-//       console.log(usersDB.dataValues);
-//       return usersDB
-//     })
-// }
-
-// console.log(UserName());

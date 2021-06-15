@@ -1,0 +1,44 @@
+<div class='mess-bd'>
+  {{#if userYES}}
+    <h1 class='mess-bd'>Пользователь существует!</h1>
+    <a href='/adminpanel/bd/users'>
+      <h4>Список пользователей</h4>
+    </a>
+  {{/if}}
+
+  {{#if userNO}}
+    <h1 class='mess-bd'>Пользователь добавлен!</h1>
+    <a href='/adminpanel/bd/users'>
+      <h4>Список пользователей</h4>
+    </a>
+  {{/if}}
+</div>
+
+<div class='bdtable'>
+  <div class='mess-bd'>
+    <a href='/adminpanel/bd'>
+      <h4>Назад</h4>
+    </a>
+  </div>
+  <div id='authon'>
+    <form id='authform' action='' method='POST'>
+      <label id='login11' for='login12'>User</label>
+      <input
+        id='login12'
+        type='text'
+        name='useradd'
+        placeholder='Введите логин'
+        required
+      />
+      <label id='login21' for='login22'>Password</label>
+      <input
+        id='login22'
+        type='password'
+        name='passwordadd'
+        placeholder='Введите пароль'
+        required
+      />
+      <input id='authbutton' type='submit' value='Добавить' />
+    </form>
+  </div>
+</div>

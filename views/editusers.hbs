@@ -1,0 +1,63 @@
+<div class='bdtable'>
+  <div class='mess-bd'>
+    <a href='/adminpanel/bd'>
+      <h4>Назад</h4>
+    </a>
+  </div>
+  <table class='user-table'>
+    <tr>
+      <th>ID</th>
+      <th>Пользователь</th>
+      <th>Пароль</th>
+      <th>Создан</th>
+    </tr>
+    {{#each users}}
+      <tr>
+        <td><input
+            class='bdinput table-id'
+            name='{{this.id}}'
+            disabled='disabled'
+            value='{{this.id}}'
+          /></td>
+        <form action='users/edit/{{this.id}}' method='POST'>
+          <td id='name'><input
+              class='bdinput'
+              name='editLogin'
+              maxlength='16'
+              type='text'
+              value='{{this.name}}'
+            /></td>
+          <td id='pass'><input
+              id='pass{{this.name}}'
+              class='bdinput'
+              name='editPass'
+              maxlength='16'
+              type='text'
+              value='{{this.password}}'
+            /></td>
+          <td><input
+              class='bdinput table-date'
+              disabled='disabled'
+              type='text'
+              value='{{this.date}}'
+            /></td>
+          <th>
+            <input
+              id='edit-{{this.name}}'
+              class='button'
+              type='submit'
+              value='Cохранить'
+            />
+          </th>
+        </form>
+        <td>
+          <form action='users/delete/{{this.id}}' method='POST'>
+            <th>
+              <input class='button' type='submit' value='Удалить' />
+            </th>
+          </form>
+        </td>
+      </tr>
+    {{/each}}
+  </table>
+</div>

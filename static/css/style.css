@@ -1,206 +1,256 @@
 body {
-    margin: 0;
-    font-family: 'Balsamiq Sans', cursive;
+  margin: 0;
+  font-family: 'Balsamiq Sans', cursive;
+}
+
+.hidden {
+  display: none;
 }
 
 a {
-    text-decoration: none;
-    outline: none;
-    user-select: none;
-    text-align: center;
-    color: white;
-    
+  text-decoration: none;
+  outline: none;
+  user-select: none;
+  text-align: center;
+  color: white;
 }
 
 a :hover {
-    transform: scale(1.2);
-    transition: ease 1s;
-    color:aquamarine;
+  transition: ease 1s;
+  color: aquamarine;
 }
 
-#mainheader > a :hover {
-    transform: none;
-}
-
-#mainpanel > #website > a :hover {
-    transform: none;
-    color: teal;
-}
-
-#mainpanel > #ftp > a :hover {
-    transform: none;
-    color: teal;
-}
-
-#mainpanel > #database > a :hover {
-    transform: none;
-    color: teal;
+.main-icon :hover {
+  color: teal;
 }
 
 .button {
-    cursor: pointer;
-    background: black;
-    color: white;
-    border-color: grey;
+  grid-area: service2;
+  cursor: pointer;
+  background: black;
+  color: white;
+  border-color: grey;
+  text-align: center;
+  border-radius: 10px;
 }
-.button :hover, .button:hover {
-    transition: ease 0.5s;
-    color:aquamarine;
-    border-color: aquamarine;
+
+.button:hover,
+.button:hover a {
+  transition: ease 0.5s;
+  color: aquamarine;
+  border-color: aquamarine;
 }
 
 p {
-    text-align: center;
+  text-align: center;
 }
 
 h4 {
-    color: #000000;
-    cursor: pointer;
+  color: #000000;
+  cursor: pointer;
+  margin: 10px;
 }
 
-h1, h2, h3, h5 {
-    text-align: center;
-    user-select: none; 
+h1,
+h2,
+h3,
+h5 {
+  text-align: center;
+  user-select: none;
 }
 
-h2, h3, h5 {
-    color: #ffffff;
+h2,
+h3,
+h5 {
+  color: #ffffff;
 }
 
 #container {
-    display: grid;
-    height: 100vh;
-    grid-template-areas:
-        "header header header"
-        "mainpanel mainpanel mainpanel"
-        "footer footer footer";
-    background: #ffffff;
-    grid-auto-rows: auto 1fr auto;
+  display: grid;
+  height: 100vh;
+  grid-template-areas:
+    'header header header'
+    'mainpanel mainpanel mainpanel'
+    'footer footer footer';
+  background: #ffffff;
+  grid-auto-rows: auto 1fr auto;
 }
 
 #header {
-    grid-area: header;
-    display: grid;
-    grid-template-areas: "logo mainheader authlogin";
-    grid-template-columns: 200px 1fr 200px;
-    align-items: center;
-    justify-items: center;
-    background: #004444;
+  grid-area: header;
+  display: grid;
+  grid-template-areas: 'logo mainheader authlogin';
+  grid-template-columns: 200px 1fr 200px;
+  align-items: center;
+  justify-items: center;
+  background: #004444;
 }
 
-
 #logo {
-    grid-area: logo;
+  grid-area: logo;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #mainheader {
-    grid-area: mainheader;
+  grid-area: mainheader;
 }
 
 #authlogin {
-    grid-area: authlogin;
+  grid-area: authlogin;
+  text-align: center;
 }
 
-#logo :hover{
-    transform:  rotateY(360deg);
-    transition: ease 3s;
+#logo :hover {
+  transform: rotateY(360deg);
+  transition: ease 3s;
 }
 
 #mainpanel {
-    grid-area: mainpanel;
-    display: grid;
-    grid-template-areas: 
-    "service1 service2 service3"
-    "service4 service5 service6"
-    "service7 service8 service9";
-    grid-template-columns: 1fr 1.1fr 1fr;
-    grid-template-rows: 1fr 1.1fr 1fr;
-    margin: 25px;
-    align-items: center;
-    justify-items: center;
+  grid-area: mainpanel;
+  display: grid;
+  grid-template-areas:
+    'service1 service2 service3'
+    'service4 service5 service6'
+    'service7 service8 service9';
+  grid-template-columns: 1fr 1.1fr 1fr;
+  grid-template-rows: 1fr 1.1fr 1fr;
+  margin: 25px;
+  align-items: center;
+  justify-items: center;
 }
 
 #mainpanel > div > a > img {
-    width: 100px;
-    height: 100px;
+  width: 10vh;
+  height: 10vh;
 }
 
-#login-fail, #login-in {
-    grid-area: service2;
-    text-align: center;
-} 
+#login-fail,
+#login-in {
+  grid-area: service2;
+  text-align: center;
+}
+
+.main-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 #website {
-    grid-area: service1;
+  grid-area: service1;
 }
 
 #ftp {
-    grid-area: service2;
+  grid-area: service2;
 }
 
 #database {
-    grid-area: service3;
+  grid-area: service3;
 }
 
 #footer {
-    display: grid;
-    grid-area: footer;
-    bottom: 0;
-    width: 100%;
-    background: #004444;
+  display: grid;
+  grid-area: footer;
+  bottom: 0;
+  width: 100%;
+  background: #004444;
 }
 
 #authon {
-    grid-area: service5;
+  grid-area: service5;
 }
 
-#login11, #login12,  #login21, #login22 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+#login11,
+#login12,
+#login21,
+#login22 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-#login21, #login11 {
-    margin-top: 10px;
+#login21,
+#login11 {
+  margin-top: 10px;
 }
 
-#login12, #login22 {
-    border-color: #004444;
-    padding: 5px;
-    background: white;
-    color: #004444;
-    font-weight: bold;
+#login12,
+#login22 {
+  border-color: #004444;
+  padding: 5px;
+  background: white;
+  color: #004444;
+  font-weight: bold;
 }
 
 #authform {
-    display: inline-table;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 5px;
-    background: #004444;
-    color: white;
+  display: inline-table;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px;
+  background: #004444;
+  color: white;
+  border-radius: 10px;
 }
 
-#authform > #login11:hover, #login21:hover {
-    color: aquamarine;
+#authform > #login11:hover,
+#login21:hover {
+  color: aquamarine;
 }
 
 ::placeholder {
-    text-align: center;
+  text-align: center;
 }
 
 #authbutton {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    background: black;
-    color: white;
-    border-color: grey;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background: black;
+  color: white;
+  border-color: grey;
+  border-radius: 10px;
 }
 #authform > #authbutton:hover {
-    transition: ease 0.5s;
-    color:aquamarine;
-    border-color: aquamarine;
+  transition: ease 1s;
+  color: aquamarine;
+  border-color: aquamarine;
+}
+
+.bdinput {
+  background: #004444;
+  color: white;
+  text-align: center;
+}
+.table-id {
+  width: 30px;
+}
+
+.table-date {
+  width: 75px;
+}
+
+.bdtable,
+.uops {
+  grid-area: 1 / 1 / 4 / 4;
+}
+
+.bd-list,
+.mess-bd {
+  grid-area: 1 / 1 / 1 / 4;
+  text-align: center;
+}
+
+.item-list > button {
+  font-size: 14px;
+  margin: 5px;
+  width: 21vh;
+}
+
+.mess-bd > a :hover {
+  color: teal;
 }

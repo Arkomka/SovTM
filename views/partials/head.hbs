@@ -3,15 +3,15 @@
   <meta name='viewport' content='width=device-width, initial-scale=1.0' />
   <title>Sov™ Административная панель</title>
   <link rel='icon' href='/images/icon/favicon.png' type='image/x-icon' />
-  <link rel='stylesheet' href='../css/style.css' />
+  <link rel='stylesheet' href='/css/style.css' />
   <link
     href='https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap'
     rel='stylesheet'
   />
-  {{#if isMain}}
-    <script src='/js/auth.js' defer></script>
-  {{else}}
+  {{#if isLogin}}
     <script src='/js/authon.js' defer></script>
+  {{else}}
+    <script src='/js/auth.js' defer></script>
   {{/if}}
 
 </head>

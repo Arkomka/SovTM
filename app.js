@@ -6,7 +6,6 @@ const expressHbs = require('express-handlebars');
 const hbs = require('hbs');
 const fs = require('fs');
 const bd = require('./models/js/connbd.js');
-const { emit } = require('process');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -89,7 +88,9 @@ const auth = (req, res, next) => {
 };
 
 app.get('/loginfail', (req, res) => {
-  res.render('loginfail.hbs');
+  res.render('loginfail.hbs', {
+    noLogin: true,
+  });
 });
 
 app.get('/adminpanel', auth, (req, res) => {
@@ -104,19 +105,55 @@ app.get('/adminpanel/bd', auth, (req, res) => {
   });
 });
 
-app.post('/adminpanel/bd', auth, (req, res) => {
-  res.render('bd.hbs', {
-    isLogin: true,
-    users: data,
-  });
-});
-
 app.get('/adminpanel/bd/users', auth, (req, res) => {
   bd.findAll({ raw: true })
     .then((data) => {
       res.render('users.hbs', {
         isLogin: true,
         users: data,
+      });
+    })
+    .catch((err) => console.log(err));
+});
+
+app.get('/adminpanel/bd/addusers', auth, (req, res) => {
+  res.render('addusers.hbs', {
+    isLogin: true,
+  });
+});
+
+app.post('/adminpanel/bd/addusers', auth, (req, res) => {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var yyyy = today.getFullYear();
+  today = yyyy + '-' + mm + '-' + dd;
+  const username = req.body.useradd;
+  const userpass = req.body.passwordadd;
+  bd.findAll({ raw: true })
+    .then((data) => {
+      data.forEach((item) => {
+        if (username === item.name) {
+          hbs.create('userYES');
+          res.render('addusers.hbs', {
+            userYES: true,
+            isLogin: true,
+          });
+          next();
+        }
+      });
+
+      bd.create({
+        name: username,
+        password: userpass,
+        date: today,
+      });
+    })
+    .then(() => {
+      hbs.create('userNO');
+      res.render('addusers.hbs', {
+        userNO: true,
+        isLogin: true,
       });
     })
     .catch((err) => console.log(err));
@@ -155,13 +192,15 @@ app.post('/adminpanel/bd/users/delete/:id', auth, (req, res) => {
     .catch((err) => console.log(err));
 });
 
+app.get('/404', (req, res) => {
+  res.render('404.hbs', {
+    isLogin: true,
+  });
+});
+
 app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
-});
-
-app.get('/404', (req, res) => {
-  res.render('404.hbs');
 });
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
