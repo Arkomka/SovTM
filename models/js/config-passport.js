@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const bd = require('./connbd.js');
+const bd = require('./conn-bd');
 let userName = ' ';
 
 passport.serializeUser(function (user, done) {
